@@ -17,10 +17,13 @@ const HEADERS = {
 // Udemy's bot protection rejects plain server requests, so the API is called
 // from inside a real browser tab that has loaded the public profile first.
 const { chromium } = await import("playwright");
-const browser = await chromium.launch();
-const page = await browser.newPage({ userAgent: HEADERS["User-Agent"] });
+// Headed (under xvfb in CI): Udemy's bot check blocks headless Chromium.
+const browser = await chromium.launch({ headless: false, args: ["--disable-blink-features=AutomationControlled"] });
+const page = await browser.newPage();
 const landing = await page.goto(HEADERS.Referer, { waitUntil: "domcontentloaded" });
 console.log(`profile page: ${landing?.status()}`);
+await page.waitForFunction(() => !document.title.includes("Just a moment"), null, { timeout: 60_000 });
+console.log(`profile page ready: ${await page.title()}`);
 
 async function getJson(url) {
   const { status, body } = await page.evaluate(async (u) => {
