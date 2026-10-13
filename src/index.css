@@ -256,3 +256,32 @@ html.js .track-row.is-in .track-node > span {
   background-color: rgb(var(--gold));
   transition: background-color 0.6s var(--ease-out) 0.25s;
 }
+
+/* "Hot & New": a light sweep across the badge every few seconds. */
+.hot-badge {
+  overflow: hidden;
+  isolation: isolate;
+}
+.hot-badge::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(100deg, transparent 30%, rgb(255 255 255 / 0.7) 50%, transparent 70%);
+  transform: translateX(-120%);
+  animation: hot-sweep 3.2s var(--ease-out) infinite;
+}
+@keyframes hot-sweep {
+  0%,
+  55% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hot-badge::after {
+    animation: none;
+  }
+}

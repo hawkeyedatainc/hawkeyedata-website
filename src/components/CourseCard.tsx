@@ -1,9 +1,11 @@
 import { ArrowUpRight, Star } from "lucide-react";
-import { type Course, compact, examCodes } from "@/lib/catalog";
+import { type Course, compact, examCodes, trackOf } from "@/lib/catalog";
+import { HotBadge } from "./HotBadge";
 
 export function CourseCard({ course, tone = "paper" }: { course: Course; tone?: "paper" | "night" }) {
   const codes = examCodes(course.title);
   const night = tone === "night";
+  const badge = trackOf(course).badge;
 
   return (
     <a
@@ -31,6 +33,11 @@ export function CourseCard({ course, tone = "paper" }: { course: Course; tone?: 
         {course.practiceTests && (
           <span className="absolute left-2.5 top-2.5 rounded-full bg-ink/85 px-2.5 py-1 text-[0.7rem] font-semibold text-paper">
             Practice tests
+          </span>
+        )}
+        {badge && (
+          <span className="absolute bottom-2.5 left-2.5">
+            <HotBadge label={badge} />
           </span>
         )}
       </div>

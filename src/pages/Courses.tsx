@@ -3,9 +3,10 @@ import { useSearchParams } from "react-router-dom";
 import { AnimatePresence, LayoutGroup, motion } from "motion/react";
 import { Search } from "lucide-react";
 import { CourseCard } from "@/components/CourseCard";
-import { PROFILE, courses, fmt, trackOf, tracks } from "@/lib/catalog";
+import { PROFILE, byFeatured, byTrackOrder, courses, fmt, trackOf, tracks } from "@/lib/catalog";
 
 const SORTS = {
+  featured: { label: "Featured", fn: byFeatured },
   popular: {
     label: "Most popular",
     fn: (a: (typeof courses)[number], b: (typeof courses)[number]) => b.students - a.students,
@@ -29,7 +30,7 @@ export default function Courses() {
   const param = hydrated ? params.get("track") : null;
   const track = param && tracks.some((t) => t.slug === param) ? param : "all";
   const [query, setQuery] = useState("");
-  const [sort, setSort] = useState<SortKey>("popular");
+  const [sort, setSort] = useState<SortKey>("featured");
   const q = useDeferredValue(query.trim().toLowerCase());
 
   const shown = useMemo(
@@ -37,7 +38,7 @@ export default function Courses() {
       courses
         .filter((c) => track === "all" || trackOf(c).slug === track)
         .filter((c) => !q || `${c.title} ${c.headline}`.toLowerCase().includes(q))
-        .sort(SORTS[sort].fn),
+        .sort(sort === "featured" && track !== "all" ? byTrackOrder : SORTS[sort].fn),
     [track, q, sort],
   );
 
@@ -95,6 +96,15 @@ export default function Courses() {
                       )}
                       <span className="relative">
                         {t.name} <span className="tabular opacity-60">{t.count}</span>
+                        {"badge" in t && t.badge && (
+                          <span
+                            className={`ml-1.5 rounded-full px-1.5 py-0.5 text-[0.65rem] font-bold uppercase tracking-wide ${
+                              active ? "bg-gold text-ink" : "bg-gold/80 text-ink"
+                            }`}
+                          >
+                            {t.badge}
+                          </span>
+                        )}
                       </span>
                     </button>
                   );
