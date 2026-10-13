@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion, useScroll, useSpring } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { CourseCard } from "./CourseCard";
+import { HotBadge } from "./HotBadge";
 import { examCodes, tracks } from "@/lib/catalog";
 
 /** The hawk's tail trace continues down the page as a bus line; each track branches off it. */
@@ -36,7 +37,7 @@ export function TrackRoute() {
 
           <ol className="space-y-24 md:space-y-32">
             {tracks.map((track) => {
-              const codes = [...new Set(track.courses.flatMap((c) => examCodes(c.title)))].slice(0, 8);
+              const codes = [...new Set(track.courses.flatMap((c) => examCodes(c)))].slice(0, 8);
               return (
                 <li key={track.slug} className="track-row reveal relative pl-12 md:pl-20">
                   <span
@@ -48,6 +49,7 @@ export function TrackRoute() {
 
                   <div className="grid gap-x-12 gap-y-6 lg:grid-cols-12">
                     <div className="lg:col-span-5">
+                      {track.badge && <HotBadge label={track.badge} className="mb-3" />}
                       <h3 className="text-[clamp(1.6rem,3vw,2.5rem)] font-semibold leading-[1.05]">{track.name}</h3>
                       <p className="mt-2 text-sm font-semibold text-violet tabular">
                         {track.courses.length} {track.courses.length === 1 ? "course" : "courses"}

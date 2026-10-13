@@ -13,6 +13,8 @@ export type Course = {
   duration: string;
   language: string;
   practiceTests?: boolean;
+  /** Exam code when the title doesn't name it, e.g. CCAO-F. */
+  exam?: string;
 };
 
 export type Review = { course: number; name: string; text: string };
@@ -23,10 +25,22 @@ export type Track = {
   blurb: string;
   /** Lower-case fragments matched against the course title. First matching track wins. */
   match: string[];
+  /** Highlight shown on the track and its courses, e.g. "Hot & New". */
+  badge?: string;
+  /** Title fragments listed first in the track, in this order; the rest follow by popularity. */
+  pin?: string[];
 };
 
 // Order matters: a course lands in the first track whose keywords match its title.
 export const TRACKS: Track[] = [
+  {
+    slug: "ai-certs",
+    name: "AI Certs",
+    blurb: "The newest AI certifications from Anthropic, AWS and GitHub, with realistic practice exams and study PDFs.",
+    badge: "Hot & New",
+    match: ["claude certified", "aib-c01", "aif-c01", "gh-300"],
+    pin: ["claude certified associate", "claude certified architect", "aib-c01", "gh-300", "aif-c01"],
+  },
   {
     slug: "ai",
     name: "AI at work",
@@ -62,7 +76,8 @@ export const TRACKS: Track[] = [
   {
     slug: "engineering",
     name: "Data engineering",
-    blurb: "SQL and enterprise ETL with IBM DataStage: the pipelines every report depends on.",
+    blurb: "Databricks, SQL and enterprise ETL with IBM DataStage: the pipelines every report depends on.",
+    pin: ["databricks"],
     match: [
       "sql",
       "snowflake",
@@ -89,7 +104,6 @@ export const TRACKS: Track[] = [
 
 const OTHER: Track = { slug: "more", name: "More courses", blurb: "Everything else in the catalogue.", match: [] };
 
-export const courses = (courseData as Course[]).slice().sort((a, b) => b.students - a.students);
 export const reviews = reviewData as Review[];
 
 export function trackOf(course: Course): Track {
@@ -97,13 +111,35 @@ export function trackOf(course: Course): Track {
   return TRACKS.find((t) => t.match.some((m) => title.includes(m))) ?? OTHER;
 }
 
+const pinIndex = (course: Course) => {
+  const title = course.title.toLowerCase();
+  const i = trackOf(course).pin?.findIndex((p) => title.includes(p)) ?? -1;
+  return i === -1 ? Number.MAX_SAFE_INTEGER : i;
+};
+
+/** Order inside one track: pinned courses first, then by learners. */
+export function byTrackOrder(a: Course, b: Course): number {
+  return pinIndex(a) - pinIndex(b) || b.students - a.students;
+}
+
+/** Order across the whole catalogue: highlighted tracks first (in their pinned order), then by learners. */
+export function byFeatured(a: Course, b: Course): number {
+  const hot = (c: Course) => (trackOf(c).badge ? 0 : 1);
+  return hot(a) - hot(b) || (hot(a) === 0 ? pinIndex(a) - pinIndex(b) : 0) || b.students - a.students;
+}
+
+export const courses = (courseData as Course[]).slice().sort(byFeatured);
+
 export const tracks = [...TRACKS, OTHER]
-  .map((track) => ({ ...track, courses: courses.filter((c) => trackOf(c).slug === track.slug) }))
+  .map((track) => ({
+    ...track,
+    courses: courses.filter((c) => trackOf(c).slug === track.slug).sort(byTrackOrder),
+  }))
   .filter((t) => t.courses.length > 0);
 
-/** Exam codes named in a title, e.g. PL-300, AZ-900, CLF-C02. */
-export function examCodes(title: string): string[] {
-  return [...new Set(title.toUpperCase().match(/\b(?:[A-Z]{2,3}-\d{3}|[A-Z]{3}-C\d{2})\b/g) ?? [])];
+/** Exam codes a course prepares for, e.g. PL-300, AZ-900, CLF-C02, CCAO-F. */
+export function examCodes(course: Course): string[] {
+  return [...new Set(`${course.title} ${course.exam ?? ""}`.toUpperCase().match(/\b(?:[A-Z]{2,3}-\d{3}|[A-Z]{3}-C\d{2}|[A-Z]{4}-F)\b/g) ?? [])];
 }
 
 export const totals = {
