@@ -71,7 +71,7 @@ export function CourseCard({ course, tone = "paper" }: { course: Course; tone?: 
               {course.rating.toFixed(1)}
             </span>
           )}
-          {course.students > 0 && <span>{compact(course.students)} learners</span>}
+          {course.students > 0 && <span>{compact(course.students)} {course.students === 1 ? "learner" : "learners"}</span>}
           {course.duration && <span className="hidden sm:inline">{course.duration}</span>}
           <ArrowUpRight
             className="ml-auto h-4 w-4 opacity-0 transition-[opacity,transform] duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-100"
