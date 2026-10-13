@@ -14,10 +14,21 @@ const HEADERS = {
   Referer: "https://www.udemy.com/user/amandeep-singh-sawhney/",
 };
 
+// Udemy's bot protection rejects plain server requests, so the API is called
+// from inside a real browser tab that has loaded the public profile first.
+const { chromium } = await import("playwright");
+const browser = await chromium.launch();
+const page = await browser.newPage({ userAgent: HEADERS["User-Agent"] });
+const landing = await page.goto(HEADERS.Referer, { waitUntil: "domcontentloaded" });
+console.log(`profile page: ${landing?.status()}`);
+
 async function getJson(url) {
-  const res = await fetch(url, { headers: HEADERS });
-  if (!res.ok) throw new Error(`${res.status} ${res.statusText} for ${url}`);
-  return res.json();
+  const { status, body } = await page.evaluate(async (u) => {
+    const res = await fetch(u, { headers: { Accept: "application/json" }, credentials: "include" });
+    return { status: res.status, body: await res.text() };
+  }, url);
+  if (status !== 200) throw new Error(`${status} for ${url}: ${body.slice(0, 200)}`);
+  return JSON.parse(body);
 }
 
 const courseFields = [
@@ -52,9 +63,9 @@ async function downloadThumb(course) {
   const src = course.image_750x422;
   if (!src) return null;
   const file = `${course.id}.jpg`;
-  const res = await fetch(src, { headers: HEADERS });
-  if (!res.ok) throw new Error(`thumbnail ${res.status} for ${course.id}`);
-  await writeFile(`${THUMB_DIR}/${file}`, Buffer.from(await res.arrayBuffer()));
+  const res = await page.request.get(src);
+  if (!res.ok()) throw new Error(`thumbnail ${res.status()} for ${course.id}`);
+  await writeFile(`${THUMB_DIR}/${file}`, await res.body());
   return `/courses/${file}`;
 }
 
@@ -101,6 +112,7 @@ for (const f of existsSync(THUMB_DIR) ? await readdir(THUMB_DIR) : []) {
   if (f.endsWith(".jpg") && !keep.has(f)) await unlink(`${THUMB_DIR}/${f}`);
 }
 
+await browser.close();
 courses.sort((a, b) => b.students - a.students);
 await writeFile("src/data/courses.json", JSON.stringify(courses, null, 2) + "\n");
 await writeFile("src/data/reviews.json", JSON.stringify(reviews, null, 2) + "\n");
