@@ -1,142 +1,253 @@
+@import "@fontsource-variable/unbounded/wght.css";
+@import "@fontsource-variable/onest/wght.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 270 57% 39%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 45 100% 62%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --night: 34 11 61;
+    --violet: 77 28 117;
+    --plum: 52 19 89;
+    --gold: 255 217 58;
+    --paper: 250 246 238;
+    --ink: 28 11 51;
+    --lilac: 216 203 238;
+    --mist: 96 80 122;
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    color-scheme: dark;
   }
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+  html {
+    @apply bg-night text-lilac antialiased;
+    font-family: theme("fontFamily.sans");
+    font-feature-settings: "ss01", "cv11";
+    text-rendering: optimizeLegibility;
+    scrollbar-color: rgb(var(--violet)) rgb(var(--night));
+    -webkit-tap-highlight-color: transparent;
   }
-}
 
-@layer base {
-  * {
-    @apply border-border;
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply min-h-screen overflow-x-clip;
   }
-  
-  /* Custom animations */
-  .animate-float {
-    animation: float 5s ease-in-out infinite;
+
+  ::selection {
+    background: rgb(var(--gold));
+    color: rgb(var(--ink));
   }
-  
-  .animate-spin-slow {
-    animation: spin 15s linear infinite;
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--gold));
+    outline-offset: 3px;
+    border-radius: 6px;
   }
-  
-  .hover-scale {
-    @apply transition-transform duration-200 hover:scale-105;
+
+  h1,
+  h2,
+  h3 {
+    font-family: theme("fontFamily.display");
+    text-wrap: balance;
+    letter-spacing: -0.03em;
   }
-  
-  @keyframes float {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
+
+  p {
+    text-wrap: pretty;
   }
-  
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
+
+  a {
+    text-underline-offset: 0.22em;
+    text-decoration-thickness: 1px;
   }
-  
-  /* Gradient text */
-  .text-gradient {
-    @apply bg-gradient-to-r from-hawkeye-purple to-hawkeye-gold bg-clip-text text-transparent;
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
   }
-  
-  /* Glassmorphism */
-  .glass {
-    @apply bg-white/70 backdrop-blur-lg border border-white/20 shadow-lg dark:bg-gray-900/70 dark:border-gray-800/50;
+}
+
+@layer components {
+  .on-paper {
+    @apply bg-paper text-ink;
+    color-scheme: light;
+    scrollbar-color: rgb(var(--violet)) rgb(var(--paper));
   }
+  .on-paper ::selection {
+    background: rgb(var(--violet));
+    color: rgb(var(--paper));
+  }
+  .on-paper :focus-visible {
+    outline-color: rgb(var(--violet));
+  }
+
+  .btn {
+    @apply relative inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-[0.95rem] font-semibold transition-[transform,background-color,color,box-shadow] duration-300 ease-out;
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  .btn-gold {
+    @apply bg-gold text-ink;
+    box-shadow: 0 10px 30px -12px rgb(var(--gold) / 0.55);
+  }
+  .btn-gold:hover {
+    box-shadow: 0 16px 40px -14px rgb(var(--gold) / 0.75);
+    transform: translateY(-2px);
+  }
+  .btn-ghost {
+    @apply text-lilac;
+    box-shadow: inset 0 0 0 1px rgb(var(--lilac) / 0.35);
+  }
+  .btn-ghost:hover {
+    @apply text-gold;
+    box-shadow: inset 0 0 0 1px rgb(var(--gold) / 0.8);
+  }
+  .btn-ink {
+    @apply bg-ink text-paper;
+  }
+  .btn-ink:hover {
+    @apply bg-violet;
+    transform: translateY(-2px);
+  }
+
+  .link-sweep {
+    background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0 1px;
+    transition: background-size 0.45s var(--ease-out);
+  }
+  .link-sweep:hover,
+  .link-sweep[aria-current="page"] {
+    background-size: 100% 1px;
+  }
+}
+
+/* Reveal on scroll. Content is visible without JS; only JS-enabled pages hide it until it enters. */
+html.js .reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  filter: blur(6px);
+  transition:
+    opacity 0.9s var(--ease-out),
+    transform 1.1s var(--ease-out),
+    filter 0.9s var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+html.js .reveal.is-in {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    transition-delay: 0ms !important;
+  }
+  html.js .reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* The hawk traces itself in, then fills: the site's one authored entrance. */
+.hawk-draw .hawk-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: hawk-trace 2.2s var(--ease-out) 0.2s forwards;
+}
+.hawk-draw .hawk-fill {
+  opacity: 0;
+  animation: hawk-fill 1.2s var(--ease-out) 1.5s forwards;
+}
+@keyframes hawk-trace {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes hawk-fill {
+  to {
+    opacity: 1;
+  }
+}
+
+.trace {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: hawk-trace 1.6s var(--ease-out) forwards;
+}
+.trace-node {
+  opacity: 0;
+  animation: hawk-fill 0.8s var(--ease-out) forwards;
+}
+.pulse {
+  filter: drop-shadow(0 0 6px rgb(var(--gold) / 0.8));
+}
+@media (prefers-reduced-motion: reduce) {
+  .pulse {
+    display: none;
+  }
+}
+
+/* Review marquee: CSS only, pauses on hover/focus, becomes a scroller for reduced motion. */
+.marquee {
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-track {
+  animation: marquee var(--marquee-duration, 80s) linear infinite;
+}
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    overflow-x: auto;
+    mask-image: none;
+  }
+  .marquee-track {
+    animation: none;
+  }
+}
+
+html.js .hero-in {
+  opacity: 0;
+  transform: translateY(24px);
+  animation: hero-in 1.1s var(--ease-out) forwards;
+  animation-delay: calc(0.35s + var(--i, 0) * 0.12s);
+}
+@keyframes hero-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* A track's node lights gold as the bus line reaches it. */
+.track-node {
+  transition: background-color 0.6s var(--ease-out), box-shadow 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+}
+html.js .track-row.is-in .track-node {
+  background-color: rgb(var(--violet));
+  box-shadow: inset 0 0 0 2px rgb(var(--violet)), 0 0 0 6px rgb(var(--gold) / 0.35);
+  transition-delay: 0.25s;
+}
+html.js .track-row.is-in .track-node > span {
+  background-color: rgb(var(--gold));
+  transition: background-color 0.6s var(--ease-out) 0.25s;
 }

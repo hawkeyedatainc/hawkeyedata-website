@@ -1,6 +1,9 @@
-// Pulls Aman's public Udemy catalogue (courses, thumbnails, a few real reviews)
-// into src/data and public/courses. Run by .github/workflows/sync-courses.yml;
-// the site never calls Udemy at runtime.
+// Refreshes src/data/courses.json (and reviews.json, thumbnails in public/courses)
+// from Aman's public Udemy catalogue. Run it from a normal computer:
+//   npx playwright install chromium && npm run sync:courses
+// It opens a visible browser window because Udemy blocks headless and
+// data-centre traffic, which is also why this cannot run in GitHub Actions.
+// The site itself never calls Udemy.
 import { mkdir, writeFile, readdir, unlink } from "node:fs/promises";
 import { existsSync } from "node:fs";
 
@@ -17,8 +20,7 @@ const HEADERS = {
 // Udemy's bot protection rejects plain server requests, so the API is called
 // from inside a real browser tab that has loaded the public profile first.
 const { chromium } = await import("playwright");
-// Headed (under xvfb in CI): Udemy's bot check blocks headless Chromium.
-const browser = await chromium.launch({ headless: false, args: ["--disable-blink-features=AutomationControlled"] });
+const browser = await chromium.launch({ headless: false });
 const page = await browser.newPage();
 const landing = await page.goto(HEADERS.Referer, { waitUntil: "domcontentloaded" });
 console.log(`profile page: ${landing?.status()}`);
