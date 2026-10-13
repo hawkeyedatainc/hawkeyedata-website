@@ -63,7 +63,7 @@ export default function Courses() {
       </section>
 
       <section className="on-paper min-h-[70vh] pb-28">
-        <div className="sticky top-0 z-30 border-b border-ink/10 bg-paper/95 py-4">
+        <div className="sticky top-[60px] z-30 border-b border-ink/10 bg-paper py-4">
           <div className="container flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <LayoutGroup id="track-filter">
               <div

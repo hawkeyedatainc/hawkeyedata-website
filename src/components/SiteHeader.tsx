@@ -13,21 +13,13 @@ const NAV = [
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [hidden, setHidden] = useState(false);
   const { pathname } = useLocation();
 
   useEffect(() => setOpen(false), [pathname]);
 
-  // Solid once the page moves; tucks away while reading down, returns on any upward scroll.
+  // Always in view: turns solid and slims down once the page moves.
   useEffect(() => {
-    let last = window.scrollY;
-    const onScroll = () => {
-      const y = window.scrollY;
-      setScrolled(y > 12);
-      setHidden(y > 320 && y > last + 2);
-      if (y < last - 2) setHidden(false);
-      last = y;
-    };
+    const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -43,11 +35,16 @@ export function SiteHeader() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-[transform,background-color,box-shadow] duration-500 ease-out ${
-        hidden && !open ? "-translate-y-full" : ""
-      } ${scrolled || open ? "bg-night/95 shadow-[0_1px_0_rgb(var(--lilac)/0.08)]" : ""}`}
+      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow] duration-500 ease-out ${
+        scrolled || open ? "bg-night shadow-[0_1px_0_rgb(var(--lilac)/0.08)]" : ""
+      }`}
     >
-      <div className="container flex h-[72px] items-center justify-between gap-6">
+      {/* 60px when slim; keep in step with the Courses filter bar's sticky offset. */}
+      <div
+        className={`container flex items-center justify-between gap-6 transition-[height] duration-500 ease-out ${
+          scrolled && !open ? "h-[60px]" : "h-[72px]"
+        }`}
+      >
         <Link to="/" className="group flex items-center gap-3 text-gold" aria-label="HawkEye Data home">
           <Hawk className="h-7 w-auto transition-transform duration-500 ease-out group-hover:-translate-y-0.5 group-hover:rotate-[-4deg]" />
           <span className="font-display text-[0.95rem] font-semibold tracking-[-0.01em] text-paper">
