@@ -1,0 +1,25 @@
+name: Fetch thumbnails (one-off)
+on:
+  push:
+    branches: [ai-certs]
+    paths: [.github/workflows/thumbs-once.yml]
+permissions:
+  contents: write
+jobs:
+  thumbs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ai-certs
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node scripts/fetch-thumbnails.mjs
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git rm -q .github/workflows/thumbs-once.yml
+          git add -A public/courses src/data/courses.json
+          git commit -m "Self-host thumbnails for the new courses"
+          git push

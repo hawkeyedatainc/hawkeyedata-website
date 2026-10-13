@@ -37,7 +37,7 @@ export function TrackRoute() {
 
           <ol className="space-y-24 md:space-y-32">
             {tracks.map((track) => {
-              const codes = [...new Set(track.courses.flatMap((c) => examCodes(c.title)))].slice(0, 8);
+              const codes = [...new Set(track.courses.flatMap((c) => examCodes(c)))].slice(0, 8);
               return (
                 <li key={track.slug} className="track-row reveal relative pl-12 md:pl-20">
                   <span

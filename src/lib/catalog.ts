@@ -13,6 +13,8 @@ export type Course = {
   duration: string;
   language: string;
   practiceTests?: boolean;
+  /** Exam code when the title doesn't name it, e.g. CCAO-F. */
+  exam?: string;
 };
 
 export type Review = { course: number; name: string; text: string };
@@ -34,10 +36,10 @@ export const TRACKS: Track[] = [
   {
     slug: "ai-certs",
     name: "AI Certs",
-    blurb: "Get certified in AI: Claude, AWS and GitHub Copilot exams, prepared with full courses and practice tests.",
+    blurb: "The newest AI certifications from Anthropic, AWS and GitHub, with realistic practice exams and study PDFs.",
     badge: "Hot & New",
-    match: ["ccao-f", "ccar-f", "aib-c01", "gh-300"],
-    pin: ["ccao-f", "ccar-f", "aib-c01", "gh-300"],
+    match: ["claude certified", "aib-c01", "aif-c01", "gh-300"],
+    pin: ["claude certified associate", "claude certified architect", "aib-c01", "gh-300", "aif-c01"],
   },
   {
     slug: "ai",
@@ -135,9 +137,9 @@ export const tracks = [...TRACKS, OTHER]
   }))
   .filter((t) => t.courses.length > 0);
 
-/** Exam codes named in a title, e.g. PL-300, AZ-900, CLF-C02, CCAO-F. */
-export function examCodes(title: string): string[] {
-  return [...new Set(title.toUpperCase().match(/\b(?:[A-Z]{2,3}-\d{3}|[A-Z]{3}-C\d{2}|[A-Z]{4}-F)\b/g) ?? [])];
+/** Exam codes a course prepares for, e.g. PL-300, AZ-900, CLF-C02, CCAO-F. */
+export function examCodes(course: Course): string[] {
+  return [...new Set(`${course.title} ${course.exam ?? ""}`.toUpperCase().match(/\b(?:[A-Z]{2,3}-\d{3}|[A-Z]{3}-C\d{2}|[A-Z]{4}-F)\b/g) ?? [])];
 }
 
 export const totals = {

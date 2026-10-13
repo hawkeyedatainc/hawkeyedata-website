@@ -3,7 +3,7 @@ import { type Course, compact, examCodes, trackOf } from "@/lib/catalog";
 import { HotBadge } from "./HotBadge";
 
 export function CourseCard({ course, tone = "paper" }: { course: Course; tone?: "paper" | "night" }) {
-  const codes = examCodes(course.title);
+  const codes = examCodes(course);
   const night = tone === "night";
   const badge = trackOf(course).badge;
 
