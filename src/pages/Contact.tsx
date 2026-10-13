@@ -34,7 +34,12 @@ export default function Contact() {
           </div>
           <p className="hero-in mt-12 max-w-[44ch] text-sm leading-relaxed text-lilac" style={{ ["--i" as string]: 3 }}>
             Already enrolled? The quickest way to get help with a lecture is the Q&A tab inside the course on{" "}
-            <a href={PROFILE.udemyUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-0.5 text-gold underline">
+            <a
+              href={PROFILE.udemyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-0.5 text-gold underline"
+            >
               Udemy
               <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
             </a>
@@ -48,7 +53,14 @@ export default function Contact() {
             <div className="mt-3 flex flex-wrap gap-2">
               {TOPICS.map((t) => (
                 <label key={t} className="cursor-pointer">
-                  <input type="radio" name="topic" value={t} checked={topic === t} onChange={() => setTopic(t)} className="peer sr-only" />
+                  <input
+                    type="radio"
+                    name="topic"
+                    value={t}
+                    checked={topic === t}
+                    onChange={() => setTopic(t)}
+                    className="peer sr-only"
+                  />
                   <span className="block rounded-full px-4 py-2 text-sm text-lilac shadow-[inset_0_0_0_1px_rgb(var(--lilac)/0.25)] transition-colors peer-checked:bg-gold peer-checked:font-semibold peer-checked:text-ink peer-checked:shadow-none peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-gold">
                     {t}
                   </span>
@@ -69,13 +81,21 @@ export default function Contact() {
           </div>
           <label className="mt-5 block text-sm font-semibold text-paper">
             Message
-            <textarea name="message" required rows={6} className={`${field} resize-y`} placeholder="Team size, tools, goals, timing…" />
+            <textarea
+              name="message"
+              required
+              rows={6}
+              className={`${field} resize-y`}
+              placeholder="Team size, tools, goals, timing…"
+            />
           </label>
           <button type="submit" className="btn btn-gold group mt-8">
             Open in my email app
             <Send className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </button>
-          <p className="mt-3 text-sm text-lilac/80">This opens a pre-filled email to {EMAIL}. Nothing is stored on this site.</p>
+          <p className="mt-3 text-sm text-lilac/80">
+            This opens a pre-filled email to {EMAIL}. Nothing is stored on this site.
+          </p>
         </form>
       </div>
     </section>

@@ -20,15 +20,11 @@ export function CourseCard({ course, tone = "paper" }: { course: Course; tone?: 
         {course.thumbnail && (
           <img
             src={course.thumbnail}
-            // Udemy serves the same image at 750x422; fall back to the verified size if it's missing.
-            srcSet={course.thumbnail.includes("/480x270/") ? `${course.thumbnail} 480w, ${course.thumbnail.replace("/480x270/", "/750x422/")} 750w` : undefined}
-            sizes="(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw"
-            onError={(e) => e.currentTarget.removeAttribute("srcset")}
             alt=""
             loading="lazy"
             decoding="async"
-            width={480}
-            height={270}
+            width={750}
+            height={422}
             className="h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.045]"
           />
         )}
@@ -59,7 +55,9 @@ export function CourseCard({ course, tone = "paper" }: { course: Course; tone?: 
             ))}
           </div>
         )}
-        <div className={`mt-auto flex items-center gap-3 pt-4 text-[0.82rem] tabular ${night ? "text-lilac" : "text-mist"}`}>
+        <div
+          className={`mt-auto flex items-center gap-3 pt-4 text-[0.82rem] tabular ${night ? "text-lilac" : "text-mist"}`}
+        >
           {course.rating > 0 && (
             <span className={`inline-flex items-center gap-1 font-semibold ${night ? "text-gold" : "text-ink"}`}>
               <Star className="h-3.5 w-3.5 fill-gold text-gold" aria-hidden />

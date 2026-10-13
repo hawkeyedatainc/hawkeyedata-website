@@ -17,7 +17,11 @@ const orgJsonLd = {
   url: SITE_URL,
   logo: `${SITE_URL}/brand/logo.png`,
   email: "learn@hawkeyedata.ca",
-  founder: { "@type": "Person", name: "Amandeep Sawhney", sameAs: ["https://www.udemy.com/user/amandeep-singh-sawhney/"] },
+  founder: {
+    "@type": "Person",
+    name: "Amandeep Sawhney",
+    sameAs: ["https://www.udemy.com/user/amandeep-singh-sawhney/"],
+  },
 };
 
 function head(route, url) {
@@ -45,7 +49,7 @@ for (const route of routes) {
   const url = notFound ? null : SITE_URL + (route.path === "/" ? "/" : `${route.path}/`);
   const html = template
     .replace("<!--head-->", head(route, url))
-    .replace("<!--app-->", render(notFound ? "/404" : route.path));
+    .replace("<!--app-->", render(notFound ? "/404" : url.slice(SITE_URL.length)));
   const file = notFound ? "404.html" : path.join(route.path.slice(1), "index.html");
   await mkdir(path.dirname(path.join(dist, file)), { recursive: true });
   await writeFile(path.join(dist, file), html);

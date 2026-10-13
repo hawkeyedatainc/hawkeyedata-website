@@ -6,12 +6,16 @@ const titleOf = new Map(courses.map((c) => [c.id, c.title]));
 /** Real Udemy student reviews only. The section disappears rather than fall back to invented quotes. */
 export function Reviews() {
   if (reviews.length < 3) return null;
-  const rows = reviews.length >= 8 ? [reviews.filter((_, i) => i % 2 === 0), reviews.filter((_, i) => i % 2 === 1)] : [reviews];
+  const rows =
+    reviews.length >= 8 ? [reviews.filter((_, i) => i % 2 === 0), reviews.filter((_, i) => i % 2 === 1)] : [reviews];
 
   return (
     <section className="relative overflow-hidden bg-violet py-24 md:py-36" aria-labelledby="reviews-title">
       <div className="container">
-        <h2 id="reviews-title" className="reveal max-w-[18ch] text-[clamp(2rem,4.6vw,3.9rem)] font-semibold leading-[1.02] text-paper">
+        <h2
+          id="reviews-title"
+          className="reveal max-w-[18ch] text-[clamp(2rem,4.6vw,3.9rem)] font-semibold leading-[1.02] text-paper"
+        >
           {fmt(PROFILE.learners)} learners. A few of them, in their words.
         </h2>
         <p className="reveal mt-6 text-lilac" style={{ ["--i" as string]: 1 }}>
@@ -21,7 +25,11 @@ export function Reviews() {
 
       <div className="mt-16 space-y-5">
         {rows.map((row, r) => (
-          <div key={r} className="marquee overflow-hidden" style={{ ["--marquee-duration" as string]: `${row.length * 9}s` }}>
+          <div
+            key={r}
+            className="marquee overflow-hidden"
+            style={{ ["--marquee-duration" as string]: `${row.length * 9}s` }}
+          >
             <ul className={`marquee-track flex w-max gap-5 ${r % 2 ? "[animation-direction:reverse]" : ""}`}>
               {[...row, ...row].map((review, i) => (
                 <li

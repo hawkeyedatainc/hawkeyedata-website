@@ -58,7 +58,10 @@ export function TrackRoute() {
                       {codes.length > 0 && (
                         <ul className="mt-4 flex flex-wrap gap-1.5" aria-label="Certification exams covered">
                           {codes.map((c) => (
-                            <li key={c} className="rounded-md bg-violet/10 px-2 py-1 text-xs font-semibold text-violet tabular">
+                            <li
+                              key={c}
+                              className="rounded-md bg-violet/10 px-2 py-1 text-xs font-semibold text-violet tabular"
+                            >
                               {c}
                             </li>
                           ))}
@@ -67,9 +70,12 @@ export function TrackRoute() {
                     </div>
                   </div>
 
-                  <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                  {/* Phones swipe through the cards instead of scrolling past a tall stack. */}
+                  <div className="-mr-5 mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 pr-5 sm:mr-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:pb-0 sm:pr-0 lg:grid-cols-3">
                     {track.courses.slice(0, 3).map((course) => (
-                      <CourseCard key={course.id} course={course} />
+                      <div key={course.id} className="w-[78%] shrink-0 snap-start sm:w-auto">
+                        <CourseCard course={course} />
+                      </div>
                     ))}
                   </div>
 

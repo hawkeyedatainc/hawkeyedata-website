@@ -1,73 +1,33 @@
-# Welcome to your Lovable project
+# hawkeyedata.ca
 
-## Project info
+The HawkEye Data Solutions website: Amandeep Sawhney's courses, corporate training and consulting.
 
-**URL**: https://lovable.dev/projects/410efe97-ec50-4f47-aab7-99e97a4a73c8
+Vite + React + TypeScript + Tailwind. Every route is pre-rendered to static HTML at build time and hydrated in the browser, so it's served as a static site from GitHub Pages.
 
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/410efe97-ec50-4f47-aab7-99e97a4a73c8) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+## Develop
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+npm ci
+npm run dev      # http://localhost:8080
+npm run build    # type-check, build, pre-render every route into dist/
+npm run preview  # serve dist/
 ```
 
-**Edit a file directly in GitHub**
+## Deploy
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Every push to `main` runs `.github/workflows/deploy.yml`. It lints, builds and publishes `dist/` to the `gh-pages` branch, which GitHub Pages serves at hawkeyedata.ca (`public/CNAME`). Pull requests run the same build without publishing.
 
-**Use GitHub Codespaces**
+## Courses
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+The catalogue is `src/data/courses.json`, and thumbnails are self-hosted in `public/courses/<id>.jpg`. The site never calls Udemy at runtime.
 
-## What technologies are used for this project?
+- **Add or edit a course by hand:** edit the JSON and set `thumbnail` to the course's Udemy image URL, then run `node scripts/fetch-thumbnails.mjs` to download it into `public/courses`.
+- **Refresh everything from Udemy:** run `npx playwright install chromium && npm run sync:courses` on your own computer. It opens a browser window, because Udemy blocks headless browsers and cloud servers, including GitHub Actions.
 
-This project is built with:
+Courses are grouped into tracks by keywords in their titles (`TRACKS` in `src/lib/catalog.ts`). A new track or keyword is a one-line change.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Student reviews go in `src/data/reviews.json` as `{ course, name, text }`, using real reviews only. The home page's review section stays hidden until there are at least three.
 
-## How can I deploy this project?
+## Design
 
-Simply open [Lovable](https://lovable.dev/projects/410efe97-ec50-4f47-aab7-99e97a4a73c8) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+`PRODUCT.md` holds the product brief used with the Impeccable design skill. The hawk mark in `src/components/hawk-paths.ts` is traced from the original logo artwork, so it can animate and scale cleanly.

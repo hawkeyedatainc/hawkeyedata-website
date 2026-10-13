@@ -37,10 +37,24 @@ async function getJson(url) {
 }
 
 const courseFields = [
-  "id", "title", "url", "headline", "image_750x422", "num_subscribers",
-  "avg_rating", "rating", "num_reviews", "content_info", "num_published_lectures",
-  "instructional_level", "published_time", "last_update_date", "is_paid",
-  "primary_category", "primary_subcategory", "locale",
+  "id",
+  "title",
+  "url",
+  "headline",
+  "image_750x422",
+  "num_subscribers",
+  "avg_rating",
+  "rating",
+  "num_reviews",
+  "content_info",
+  "num_published_lectures",
+  "instructional_level",
+  "published_time",
+  "last_update_date",
+  "is_paid",
+  "primary_category",
+  "primary_subcategory",
+  "locale",
 ].join(",");
 
 async function fetchCourses() {

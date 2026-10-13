@@ -1,36 +1,15 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-
-export const OFFERS = [
-  {
-    id: "training",
-    name: "Corporate training",
-    lead: "Upskill a whole team on the tools it already pays for.",
-    points: [
-      "Live, instructor-led workshops, online or on site",
-      "Certification bootcamps for AWS, Azure, Oracle Cloud, Power BI and Tableau",
-      "Microsoft Copilot sessions that get everyday teams productive with AI",
-      "Curriculum shaped around your data, your stack and your goals",
-    ],
-  },
-  {
-    id: "consulting",
-    name: "Consulting",
-    lead: "Hands-on help from someone who teaches this for a living.",
-    points: [
-      "SQL, data warehousing and ETL pipelines, including IBM DataStage",
-      "Power BI and Tableau reporting your leadership will actually open",
-      "Practical AI adoption with Microsoft Copilot: where it pays off, and where it doesn't",
-      "Reviews of the pipelines, models and dashboards you already have",
-    ],
-  },
-];
+import { OFFERS } from "@/lib/offers";
 
 export function TeamsSection() {
   return (
     <section className="relative py-24 md:py-36" aria-labelledby="teams-title">
       <div className="container">
-        <h2 id="teams-title" className="reveal max-w-[17ch] text-[clamp(2rem,4.6vw,3.9rem)] font-semibold leading-[1.02] text-paper">
+        <h2
+          id="teams-title"
+          className="reveal max-w-[17ch] text-[clamp(2rem,4.6vw,3.9rem)] font-semibold leading-[1.02] text-paper"
+        >
           Bring the classroom to your team.
         </h2>
         <p className="reveal mt-6 max-w-[56ch] text-lg leading-relaxed text-lilac" style={{ ["--i" as string]: 1 }}>

@@ -2,19 +2,18 @@ import { Hawk } from "./Hawk";
 
 // Circuit traces leaving the hawk's wings and tail, drawn in the logo's own 1920px
 // coordinates so they meet the artwork exactly. They overflow the hawk's box on purpose.
+// The headline sits left of the hawk, so traces only leave to the right and down.
 const TRACES = [
-  "M250,826 H-180 L-420,1066 H-1500",
-  "M548,1088 H-60 L-280,1308 H-1500",
   "M1672,826 H2080 L2300,606 H3400",
   "M1372,1088 H1980 L2200,1308 H3400",
+  "M1100,600 V420 L1280,240 H3400",
   "M980,1462 V2600",
 ];
 
 const NODES: [number, number][] = [
-  [-420, 1066],
-  [-280, 1308],
   [2300, 606],
   [2200, 1308],
+  [1280, 240],
 ];
 
 export function HeroCircuit({ className = "" }: { className?: string }) {
@@ -41,8 +40,9 @@ export function HeroCircuit({ className = "" }: { className?: string }) {
           />
         ))}
         {/* Data pulses travel inward along the traces toward the hawk. */}
-        {TRACES.slice(0, 4).map((d, i) => (
-          <circle key={d} r={9} fill="rgb(var(--gold))" className="pulse">
+        {TRACES.slice(0, 3).map((d, i) => (
+          <circle key={d} r={9} fill="rgb(var(--gold))" className="pulse" opacity={0}>
+            <set attributeName="opacity" to="1" begin={`${2.6 + i * 1.3}s`} />
             <animateMotion
               dur={`${5.5 + i * 0.9}s`}
               begin={`${2.6 + i * 1.3}s`}

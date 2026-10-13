@@ -1,4 +1,4 @@
-import { useDeferredValue, useMemo, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { AnimatePresence, LayoutGroup, motion } from "motion/react";
 import { Search } from "lucide-react";
@@ -6,15 +6,28 @@ import { CourseCard } from "@/components/CourseCard";
 import { PROFILE, courses, fmt, trackOf, tracks } from "@/lib/catalog";
 
 const SORTS = {
-  popular: { label: "Most popular", fn: (a: (typeof courses)[number], b: (typeof courses)[number]) => b.students - a.students },
-  rating: { label: "Highest rated", fn: (a: (typeof courses)[number], b: (typeof courses)[number]) => b.rating - a.rating || b.reviews - a.reviews },
-  title: { label: "A to Z", fn: (a: (typeof courses)[number], b: (typeof courses)[number]) => a.title.localeCompare(b.title) },
+  popular: {
+    label: "Most popular",
+    fn: (a: (typeof courses)[number], b: (typeof courses)[number]) => b.students - a.students,
+  },
+  rating: {
+    label: "Highest rated",
+    fn: (a: (typeof courses)[number], b: (typeof courses)[number]) => b.rating - a.rating || b.reviews - a.reviews,
+  },
+  title: {
+    label: "A to Z",
+    fn: (a: (typeof courses)[number], b: (typeof courses)[number]) => a.title.localeCompare(b.title),
+  },
 };
 type SortKey = keyof typeof SORTS;
 
 export default function Courses() {
   const [params, setParams] = useSearchParams();
-  const track = tracks.some((t) => t.slug === params.get("track")) ? params.get("track")! : "all";
+  // The pre-rendered page shows every course; apply ?track= only after hydration so the first render matches it.
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => setHydrated(true), []);
+  const param = hydrated ? params.get("track") : null;
+  const track = param && tracks.some((t) => t.slug === param) ? param : "all";
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<SortKey>("popular");
   const q = useDeferredValue(query.trim().toLowerCase());
@@ -43,8 +56,8 @@ export default function Courses() {
             Every course, grouped by <span className="text-gold">goal</span>.
           </h1>
           <p className="hero-in mt-7 max-w-[56ch] text-lg leading-relaxed text-lilac" style={{ ["--i" as string]: 1 }}>
-            {courses.length} courses on Udemy, taken by {fmt(PROFILE.learners)} learners. Each one opens on Udemy, where you
-            can preview lessons before you enrol.
+            {courses.length} courses on Udemy, taken by {fmt(PROFILE.learners)} learners. Each one opens on Udemy, where
+            you can preview lessons before you enrol.
           </p>
         </div>
       </section>
@@ -53,8 +66,15 @@ export default function Courses() {
         <div className="sticky top-0 z-30 border-b border-ink/10 bg-paper/95 py-4">
           <div className="container flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <LayoutGroup id="track-filter">
-              <div role="group" aria-label="Filter by track" className="-mx-5 flex gap-1.5 overflow-x-auto px-5 pb-1 lg:mx-0 lg:px-0 lg:pb-0">
-                {[{ slug: "all", name: "All", count: courses.length }, ...tracks.map((t) => ({ ...t, count: t.courses.length }))].map((t) => {
+              <div
+                role="group"
+                aria-label="Filter by track"
+                className="-mx-5 flex gap-1.5 overflow-x-auto px-5 pb-1 lg:mx-0 lg:px-0 lg:pb-0"
+              >
+                {[
+                  { slug: "all", name: "All", count: courses.length },
+                  ...tracks.map((t) => ({ ...t, count: t.courses.length })),
+                ].map((t) => {
                   const active = track === t.slug;
                   return (
                     <button
@@ -85,7 +105,10 @@ export default function Courses() {
             <div className="flex gap-2">
               <label className="relative flex-1 lg:w-64 lg:flex-none">
                 <span className="sr-only">Search courses</span>
-                <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-mist" aria-hidden />
+                <Search
+                  className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-mist"
+                  aria-hidden
+                />
                 <input
                   type="search"
                   value={query}
@@ -113,6 +136,7 @@ export default function Courses() {
         </div>
 
         <div className="container pt-10">
+          <h2 className="sr-only">Course list</h2>
           <p className="mb-6 text-sm text-mist tabular" aria-live="polite">
             Showing {shown.length} of {courses.length} courses
           </p>
@@ -120,7 +144,14 @@ export default function Courses() {
             <div className="rounded-[22px] bg-white p-12 text-center">
               <p className="font-display text-xl font-semibold">No course matches “{query}”.</p>
               <p className="mt-2 text-mist">Try an exam code or a tool name, or clear the search.</p>
-              <button type="button" className="btn btn-ink mt-6" onClick={() => { setQuery(""); setTrack("all"); }}>
+              <button
+                type="button"
+                className="btn btn-ink mt-6"
+                onClick={() => {
+                  setQuery("");
+                  setTrack("all");
+                }}
+              >
                 Show all courses
               </button>
             </div>

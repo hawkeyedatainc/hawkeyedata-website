@@ -31,8 +31,10 @@ export function Layout() {
     document.title = route.title;
 
     const target = hash ? document.querySelector(hash) : null;
-    if (target) lenis ? lenis.scrollTo(target as HTMLElement, { offset: -80 }) : target.scrollIntoView();
-    else lenis ? lenis.scrollTo(0, { immediate: true }) : window.scrollTo(0, 0);
+    if (target && lenis) lenis.scrollTo(target as HTMLElement, { offset: -80 });
+    else if (target) target.scrollIntoView();
+    else if (lenis) lenis.scrollTo(0, { immediate: true });
+    else window.scrollTo(0, 0);
 
     const io = new IntersectionObserver(
       (entries) =>

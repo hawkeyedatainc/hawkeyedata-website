@@ -22,7 +22,10 @@ export default function Home() {
             <h1 className="hero-in max-w-[13ch] text-[clamp(2.5rem,6.6vw,5.6rem)] font-semibold leading-[0.98] text-paper">
               Data, cloud and AI, made <span className="text-gold">simple</span> to understand.
             </h1>
-            <p className="hero-in mt-7 max-w-[52ch] text-[1.12rem] leading-relaxed text-lilac" style={{ ["--i" as string]: 1 }}>
+            <p
+              className="hero-in mt-7 max-w-[52ch] text-[1.12rem] leading-relaxed text-lilac"
+              style={{ ["--i" as string]: 1 }}
+            >
               Courses, corporate training and consulting from Amandeep Sawhney. {fmt(PROFILE.learners)} people have
               already learned with HawkEye Data on Udemy.
             </p>
@@ -35,7 +38,10 @@ export default function Home() {
                 Train your team
               </Link>
             </div>
-            <dl className="hero-in mt-14 flex flex-wrap gap-x-10 gap-y-4 text-sm text-lilac" style={{ ["--i" as string]: 3 }}>
+            <dl
+              className="hero-in mt-14 flex flex-wrap gap-x-10 gap-y-4 text-sm text-lilac"
+              style={{ ["--i" as string]: 3 }}
+            >
               {avgRating > 0 && (
                 <div className="flex items-center gap-2">
                   <dt className="sr-only">Average rating</dt>
@@ -77,11 +83,14 @@ export default function Home() {
             </p>
             <footer className="mt-6 text-mist">From Amandeep's Udemy instructor profile</footer>
           </blockquote>
-          <div className="reveal flex flex-col justify-end lg:col-span-4 lg:col-start-9" style={{ ["--i" as string]: 1 }}>
+          <div
+            className="reveal flex flex-col justify-end lg:col-span-4 lg:col-start-9"
+            style={{ ["--i" as string]: 1 }}
+          >
             <p className="text-lg leading-relaxed text-ink/80">
-              Amandeep Sawhney is a data scientist and the CEO of HawkEye Data. He has cleared many of the certifications
-              he teaches and now helps others do the same. Away from the classroom you'll find him at a chessboard or
-              planning the next trip.
+              Amandeep Sawhney is a data scientist and the CEO of HawkEye Data. He has cleared many of the
+              certifications he teaches and now helps others do the same. Away from the classroom you'll find him at a
+              chessboard or planning the next trip.
             </p>
             <Link to="/about" className="group mt-8 inline-flex items-center gap-2 font-semibold text-violet">
               More about HawkEye Data

@@ -57,7 +57,11 @@ export function SiteHeader() {
 
         <nav aria-label="Main" className="hidden items-center gap-8 lg:flex">
           {NAV.map((item) => (
-            <NavLink key={item.to} to={item.to} className="link-sweep py-1 text-[0.95rem] text-lilac transition-colors hover:text-paper aria-[current=page]:text-paper">
+            <NavLink
+              key={item.to}
+              to={item.to}
+              className="link-sweep py-1 text-[0.95rem] text-lilac transition-colors hover:text-paper aria-[current=page]:text-paper"
+            >
               {item.label}
             </NavLink>
           ))}
@@ -74,8 +78,12 @@ export function SiteHeader() {
           aria-label={open ? "Close menu" : "Open menu"}
           onClick={() => setOpen((o) => !o)}
         >
-          <span className={`absolute h-[2px] w-6 rounded bg-current transition-transform duration-500 ease-out ${open ? "rotate-45" : "-translate-y-[5px]"}`} />
-          <span className={`absolute h-[2px] w-6 rounded bg-current transition-transform duration-500 ease-out ${open ? "-rotate-45" : "translate-y-[5px]"}`} />
+          <span
+            className={`absolute h-[2px] w-6 rounded bg-current transition-transform duration-500 ease-out ${open ? "rotate-45" : "-translate-y-[5px]"}`}
+          />
+          <span
+            className={`absolute h-[2px] w-6 rounded bg-current transition-transform duration-500 ease-out ${open ? "-rotate-45" : "translate-y-[5px]"}`}
+          />
         </button>
       </div>
 
