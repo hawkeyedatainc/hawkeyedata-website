@@ -59,7 +59,7 @@ export default function Courses() {
             parts={[{ text: "Every course, grouped by " }, { text: "goal", className: "text-gold" }, { text: "." }]}
           />
           <p className="hero-in mt-7 max-w-[56ch] text-lg leading-relaxed text-lilac" style={{ ["--i" as string]: 1 }}>
-            {courses.length} courses on Udemy, taken by {fmt(PROFILE.learners)} learners. Each one opens on Udemy, where
+            {PROFILE.courses} courses on Udemy, taken by {fmt(PROFILE.learners)} learners. Each one opens on Udemy, where
             you can preview lessons before you enrol.
           </p>
         </div>

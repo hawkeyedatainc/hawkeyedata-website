@@ -16,7 +16,7 @@ export const routes: Route[] = [
     element: <Home />,
     title: "HawkEye Data | Data, cloud and AI courses, training and consulting",
     description:
-      "Learn data, cloud and AI with Amandeep Sawhney: Udemy courses taken by 176,000+ learners, plus corporate training and consulting from HawkEye Data Solutions.",
+      "Learn data, cloud and AI with Amandeep Sawhney: Udemy courses taken by 183,000+ learners, plus corporate training and consulting from HawkEye Data Solutions.",
   },
   {
     path: "/courses",

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { OFFERS } from "@/lib/offers";
+import { PROFILE, fmt } from "@/lib/catalog";
 import { trackPointer } from "@/lib/pointer";
 import { Rise } from "./Rise";
 
@@ -15,7 +16,7 @@ export function TeamsSection() {
           Bring the classroom to your team.
         </Rise>
         <p className="reveal mt-6 max-w-[56ch] text-lg leading-relaxed text-lilac" style={{ ["--i" as string]: 1 }}>
-          The same clarity that works for 176,000 learners, applied to your people and your data.
+          The same clarity that works for {fmt(Math.floor(PROFILE.learners / 1000) * 1000)} learners, applied to your people and your data.
         </p>
 
         <div className="mt-16 grid gap-5 lg:grid-cols-2">

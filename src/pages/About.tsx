@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Hawk } from "@/components/Hawk";
-import { PROFILE, fmt, totals } from "@/lib/catalog";
+import { PROFILE, fmt } from "@/lib/catalog";
 import { SplitHeadline } from "@/components/film/SplitHeadline";
 import { Rise } from "@/components/Rise";
 
@@ -9,7 +9,7 @@ export default function About() {
   const facts = [
     { value: fmt(PROFILE.learners), label: "learners on Udemy" },
     { value: fmt(PROFILE.reviews), label: "student reviews" },
-    ...(totals.courses ? [{ value: String(totals.courses), label: "published courses" }] : []),
+    { value: String(PROFILE.courses), label: "published courses" },
   ];
 
   return (

@@ -4,7 +4,7 @@ import { motion, useMotionValueEvent, useScroll, useTransform, type MotionValue 
 import { ArrowRight, Star } from "lucide-react";
 import { HeroCircuit } from "@/components/HeroCircuit";
 import { HAWK_PATHS, HAWK_VIEWBOX } from "@/components/hawk-paths";
-import { PROFILE, fmt, totals, tracks } from "@/lib/catalog";
+import { PROFILE, fmt, tracks } from "@/lib/catalog";
 import { SplitHeadline } from "./SplitHeadline";
 import { createHawkField, type HawkField } from "./hawkField";
 
@@ -180,11 +180,11 @@ export function HeroFilm({ avgRating }: { avgRating: number }) {
                   <span className="font-semibold text-paper">{fmt(PROFILE.reviews)}</span> reviews
                 </dd>
               </div>
-              {totals.courses > 0 && (
+              {PROFILE.courses > 0 && (
                 <div>
                   <dt className="sr-only">Courses</dt>
                   <dd className="tabular">
-                    <span className="font-semibold text-paper">{totals.courses}</span> courses
+                    <span className="font-semibold text-paper">{PROFILE.courses}</span> courses
                   </dd>
                 </div>
               )}
@@ -211,7 +211,7 @@ export function HeroFilm({ avgRating }: { avgRating: number }) {
             </Beat>
             <Beat progress={progress} from={0.58} to={0.8}>
               <p className="font-display text-[clamp(3rem,8.5vw,8.5rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-paper">
-                <span className="text-gold">{totals.courses}</span> courses.
+                <span className="text-gold">{PROFILE.courses}</span> courses.
                 <br />
                 <span className="text-gold">{tracks.length}</span> tracks.
               </p>
