@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react";
 import { ArrowUpRight, Send } from "lucide-react";
 import { CopyEmail } from "@/components/CopyEmail";
 import { EMAIL, PROFILE } from "@/lib/catalog";
+import { SplitHeadline } from "@/components/film/SplitHeadline";
 
 const TOPICS = ["Corporate training", "Consulting", "A course question", "Something else"];
 
@@ -23,9 +24,10 @@ export default function Contact() {
     <section className="pb-28 pt-36 md:pt-44">
       <div className="container grid gap-16 lg:grid-cols-12">
         <div className="lg:col-span-5">
-          <h1 className="hero-in max-w-[12ch] text-[clamp(2.5rem,6.4vw,5.4rem)] font-semibold leading-[0.98] text-paper">
-            Let's <span className="text-gold">talk</span>.
-          </h1>
+          <SplitHeadline
+            className="max-w-[12ch] text-[clamp(2.5rem,6.4vw,5.4rem)] font-semibold leading-[0.98] text-paper"
+            parts={[{ text: "Let's " }, { text: "talk", className: "text-gold" }, { text: "." }]}
+          />
           <p className="hero-in mt-7 max-w-[44ch] text-lg leading-relaxed text-lilac" style={{ ["--i" as string]: 1 }}>
             Training for your team, a consulting project, or a question about a course: write to us directly.
           </p>

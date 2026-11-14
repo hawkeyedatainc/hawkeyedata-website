@@ -3,6 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Hawk } from "./Hawk";
 import { CopyEmail } from "./CopyEmail";
 import { PROFILE } from "@/lib/catalog";
+import { Rise } from "./Rise";
 
 export function SiteFooter() {
   // The contact page already leads with the email.
@@ -13,9 +14,7 @@ export function SiteFooter() {
       <div className="container relative">
         {showCta && (
           <>
-            <h2 className="reveal max-w-[16ch] text-[clamp(2.1rem,5.4vw,4.6rem)] font-semibold leading-[1.02] text-paper">
-              Let's make your data make sense.
-            </h2>
+            <Rise className="max-w-[16ch] text-[clamp(2.1rem,5.4vw,4.6rem)] font-semibold leading-[1.02] text-paper">Let's make your data make sense.</Rise>
             <div className="reveal mt-10" style={{ ["--i" as string]: 1 }}>
               <CopyEmail large />
             </div>

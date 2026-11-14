@@ -4,6 +4,7 @@ import { motion, useScroll, useSpring } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { CourseCard } from "./CourseCard";
 import { HotBadge } from "./HotBadge";
+import { Rise } from "./Rise";
 import { examCodes, tracks } from "@/lib/catalog";
 
 /** The hawk's tail trace continues down the page as a bus line; each track branches off it. */
@@ -18,9 +19,9 @@ export function TrackRoute() {
     <section className="on-paper relative py-24 md:py-36" aria-labelledby="tracks-title">
       <div className="container">
         <div className="max-w-3xl">
-          <h2 id="tracks-title" className="reveal text-[clamp(2rem,4.6vw,3.9rem)] font-semibold leading-[1.02]">
+          <Rise id="tracks-title" className="text-[clamp(2rem,4.6vw,3.9rem)] font-semibold leading-[1.02]">
             Where are you headed?
-          </h2>
+          </Rise>
           <p className="reveal mt-6 max-w-[58ch] text-lg leading-relaxed text-ink/75" style={{ ["--i" as string]: 1 }}>
             Every course is grouped by the goal it gets you to. Pick a track, start with its most popular course, and
             keep going.
@@ -50,7 +51,9 @@ export function TrackRoute() {
                   <div className="grid gap-x-12 gap-y-6 lg:grid-cols-12">
                     <div className="lg:col-span-5">
                       {track.badge && <HotBadge label={track.badge} className="mb-3" />}
-                      <h3 className="text-[clamp(1.6rem,3vw,2.5rem)] font-semibold leading-[1.05]">{track.name}</h3>
+                      <Rise as="h3" observe={false} className="text-[clamp(1.6rem,3vw,2.5rem)] font-semibold leading-[1.05]">
+                        {track.name}
+                      </Rise>
                       <p className="mt-2 text-sm font-semibold text-violet tabular">
                         {track.courses.length} {track.courses.length === 1 ? "course" : "courses"}
                       </p>
@@ -74,8 +77,12 @@ export function TrackRoute() {
 
                   {/* Phones swipe through the cards instead of scrolling past a tall stack. */}
                   <div className="-mr-5 mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 pr-5 sm:mr-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:pb-0 sm:pr-0 lg:grid-cols-3">
-                    {track.courses.slice(0, 3).map((course) => (
-                      <div key={course.id} className="w-[78%] shrink-0 snap-start sm:w-auto">
+                    {track.courses.slice(0, 3).map((course, d) => (
+                      <div
+                        key={course.id}
+                        className="deal w-[78%] shrink-0 snap-start sm:w-auto"
+                        style={{ ["--d" as string]: d }}
+                      >
                         <CourseCard course={course} />
                       </div>
                     ))}

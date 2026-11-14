@@ -90,6 +90,10 @@
   .btn {
     @apply relative inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-[0.95rem] font-semibold transition-[transform,background-color,color,box-shadow] duration-300 ease-out;
   }
+  .btn {
+    translate: var(--mx, 0) var(--my, 0);
+    transition-property: transform, translate, background-color, color, box-shadow;
+  }
   .btn:active {
     transform: scale(0.97);
   }
@@ -283,5 +287,175 @@ html.js .track-row.is-in .track-node > span {
 @media (prefers-reduced-motion: reduce) {
   .hot-badge::after {
     animation: none;
+  }
+}
+
+/* Hero headline: each letter rises out of its word's baseline. */
+.split-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding: 0.14em 0.03em;
+  margin: -0.14em -0.03em;
+}
+.split-char {
+  display: inline-block;
+}
+html.js .split-char {
+  transform: translateY(115%) rotate(9deg);
+  transform-origin: 0 100%;
+  animation: split-in 0.95s var(--ease-out) forwards;
+  animation-delay: calc(0.25s + var(--c, 0) * 20ms);
+}
+@keyframes split-in {
+  to {
+    transform: none;
+  }
+}
+
+.scroll-hint {
+  transform-origin: top;
+  animation: scroll-hint 1.8s var(--ease-out) infinite;
+}
+@keyframes scroll-hint {
+  0% {
+    transform: scaleY(0);
+  }
+  60%,
+  100% {
+    transform: scaleY(1);
+    opacity: 0;
+  }
+}
+
+/* The section after the pinned hero scene rides up under its closing wipe, so there is no empty screen between them. */
+[data-film] + section {
+  margin-top: -60vh;
+  z-index: 10;
+}
+
+/* Section headings: each word rises out of its baseline when the heading scrolls in. */
+html.js .reveal.rise {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+.rise-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding: 0.14em 0.03em;
+  margin: -0.14em -0.03em;
+}
+.rise-word > span {
+  display: inline-block;
+}
+html.js .rise-word > span {
+  transform: translateY(115%);
+  transition: transform 1s var(--ease-out);
+  transition-delay: calc(0.05s + var(--w, 0) * 60ms);
+}
+html.js .is-in .rise-word > span {
+  transform: none;
+}
+
+/* A track's course cards are dealt in, fanned, when the track scrolls in. */
+html.js .deal {
+  opacity: 0;
+  transform: translateY(70px) rotate(calc((var(--d, 0) - 1) * 5deg)) scale(0.92);
+  transition:
+    opacity 0.7s var(--ease-out),
+    transform 1.1s var(--ease-out);
+  transition-delay: calc(0.2s + var(--d, 0) * 110ms);
+}
+html.js .is-in .deal {
+  opacity: 1;
+  transform: none;
+}
+
+/* Course cards lean toward the mouse and catch a gold glare. Variables come from lib/pointer.ts. */
+.tilt {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--lift, 0));
+  transition:
+    transform 0.6s var(--ease-out),
+    box-shadow 0.5s var(--ease-out),
+    background-color 0.5s var(--ease-out);
+}
+.tilt::after,
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out);
+}
+.tilt::after {
+  background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgb(var(--gold) / 0.2), transparent 50%);
+}
+.spotlight::before {
+  background: radial-gradient(520px circle at var(--gx, 50%) var(--gy, 50%), rgb(var(--gold) / 0.13), transparent 60%);
+}
+@media (hover: hover) {
+  .tilt:hover {
+    --lift: -6px;
+    transition-duration: 0.18s, 0.5s, 0.5s;
+  }
+  .tilt:hover::after,
+  .spotlight:hover::before {
+    opacity: 1;
+  }
+}
+
+/* The marker under the quote is drawn across when it scrolls in. */
+html.js .mark-sweep {
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  transition: background-size 1.3s var(--ease-out) 0.5s;
+}
+html.js .is-in .mark-sweep {
+  background-size: 100% 100%;
+}
+
+/* A section that slides over the one before it with a rounded top edge. */
+.curtain {
+  z-index: 10;
+  margin-top: -3.5rem;
+  border-radius: 3.5rem 3.5rem 0 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js .rise-word > span,
+  html.js .deal {
+    opacity: 1;
+    transform: none;
+  }
+  html.js .mark-sweep {
+    background-size: 100% 100%;
+  }
+  .tilt {
+    transform: none;
+  }
+}
+
+/* Moving between pages: a violet panel with a gold edge lifts off the new page. */
+.page-wipe {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  background: rgb(var(--violet));
+  box-shadow: inset 0 -4px 0 rgb(var(--gold));
+  animation: page-wipe 0.85s var(--ease-out) forwards;
+}
+@keyframes page-wipe {
+  to {
+    transform: translateY(-100%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-wipe {
+    display: none;
   }
 }

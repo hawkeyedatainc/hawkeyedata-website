@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Lenis from "lenis";
 import { SiteHeader } from "./SiteHeader";
@@ -9,6 +9,10 @@ let lenis: Lenis | null = null;
 
 export function Layout() {
   const { pathname, hash } = useLocation();
+  // After the first page, each new page is uncovered by a wipe (see .page-wipe in index.css).
+  const landedOn = useRef(pathname);
+  const navigated = useRef(false);
+  if (pathname !== landedOn.current) navigated.current = true;
 
   // Smooth, weighted scrolling on pointer devices; native scrolling for touch and reduced motion.
   useEffect(() => {
@@ -22,6 +26,31 @@ export function Layout() {
       cancelAnimationFrame(frame);
       lenis?.destroy();
       lenis = null;
+    };
+  }, []);
+
+  // Buttons lean a few pixels toward the mouse (see .btn in index.css).
+  useEffect(() => {
+    if (!matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)").matches) return;
+    let held: HTMLElement | null = null;
+    const release = () => {
+      held?.style.removeProperty("--mx");
+      held?.style.removeProperty("--my");
+      held = null;
+    };
+    const onMove = (e: PointerEvent) => {
+      const btn = (e.target as Element).closest?.<HTMLElement>(".btn") ?? null;
+      if (btn !== held) release();
+      if (!btn) return;
+      held = btn;
+      const r = btn.getBoundingClientRect();
+      btn.style.setProperty("--mx", `${((e.clientX - r.left - r.width / 2) * 0.22).toFixed(1)}px`);
+      btn.style.setProperty("--my", `${((e.clientY - r.top - r.height / 2) * 0.3).toFixed(1)}px`);
+    };
+    document.addEventListener("pointermove", onMove, { passive: true });
+    return () => {
+      document.removeEventListener("pointermove", onMove);
+      release();
     };
   }, []);
 
@@ -63,6 +92,7 @@ export function Layout() {
         <Outlet />
       </main>
       <SiteFooter />
+      {navigated.current && <div key={pathname} className="page-wipe" aria-hidden />}
     </>
   );
 }
