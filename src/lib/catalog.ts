@@ -154,6 +154,8 @@ export const PROFILE = {
   udemyUrl: "https://www.udemy.com/user/amandeep-singh-sawhney/",
   learners: 183_112,
   reviews: 25_750,
+  /** Courses published on Udemy. The catalogue below lists the ones added to this site so far. */
+  courses: 28,
 };
 
 export const EMAIL = "learn@hawkeyedata.ca";
