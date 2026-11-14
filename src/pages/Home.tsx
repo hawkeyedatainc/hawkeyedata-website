@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Star } from "lucide-react";
-import { HeroCircuit } from "@/components/HeroCircuit";
+import { ArrowRight } from "lucide-react";
+import { HeroFilm } from "@/components/film/HeroFilm";
 import { TrackRoute } from "@/components/TrackRoute";
 import { Reviews } from "@/components/Reviews";
 import { TeamsSection } from "@/components/TeamsSection";
-import { PROFILE, courses, fmt, totals } from "@/lib/catalog";
+import { courses } from "@/lib/catalog";
 
 const rated = courses.filter((c) => c.rating > 0 && c.reviews > 0);
 const avgRating = rated.length
@@ -14,61 +14,7 @@ const avgRating = rated.length
 export default function Home() {
   return (
     <>
-      <section className="relative isolate overflow-hidden pb-20 pt-28 md:pb-28 md:pt-32 lg:min-h-[100svh] lg:pt-0">
-        <div className="container grid items-center gap-y-12 lg:min-h-[100svh] lg:grid-cols-12">
-          <HeroCircuit className="order-first mx-auto aspect-[1464/900] w-[min(78vw,420px)] lg:order-last lg:col-span-5 lg:col-start-8 lg:w-full" />
-
-          <div className="relative lg:col-span-7 lg:row-start-1">
-            <h1 className="hero-in max-w-[13ch] text-[clamp(2.5rem,6.6vw,5.6rem)] font-semibold leading-[0.98] text-paper">
-              Data, cloud and AI, made <span className="text-gold">simple</span> to understand.
-            </h1>
-            <p
-              className="hero-in mt-7 max-w-[52ch] text-[1.12rem] leading-relaxed text-lilac"
-              style={{ ["--i" as string]: 1 }}
-            >
-              Courses, corporate training and consulting from Amandeep Sawhney. {fmt(PROFILE.learners)} people have
-              already learned with HawkEye Data on Udemy.
-            </p>
-            <div className="hero-in mt-10 flex flex-wrap gap-3" style={{ ["--i" as string]: 2 }}>
-              <Link to="/courses" className="btn btn-gold group">
-                Find your course
-                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
-              <Link to="/training" className="btn btn-ghost">
-                Train your team
-              </Link>
-            </div>
-            <dl
-              className="hero-in mt-14 flex flex-wrap gap-x-10 gap-y-4 text-sm text-lilac"
-              style={{ ["--i" as string]: 3 }}
-            >
-              {avgRating > 0 && (
-                <div className="flex items-center gap-2">
-                  <dt className="sr-only">Average rating</dt>
-                  <dd className="flex items-center gap-1.5 font-semibold text-paper tabular">
-                    <Star className="h-4 w-4 fill-gold text-gold" aria-hidden />
-                    {avgRating.toFixed(1)} average rating
-                  </dd>
-                </div>
-              )}
-              <div>
-                <dt className="sr-only">Reviews</dt>
-                <dd className="tabular">
-                  <span className="font-semibold text-paper">{fmt(PROFILE.reviews)}</span> reviews
-                </dd>
-              </div>
-              {totals.courses > 0 && (
-                <div>
-                  <dt className="sr-only">Courses</dt>
-                  <dd className="tabular">
-                    <span className="font-semibold text-paper">{totals.courses}</span> courses
-                  </dd>
-                </div>
-              )}
-            </dl>
-          </div>
-        </div>
-      </section>
+      <HeroFilm avgRating={avgRating} />
 
       <TrackRoute />
       <Reviews />

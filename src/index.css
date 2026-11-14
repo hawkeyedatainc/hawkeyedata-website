@@ -285,3 +285,47 @@ html.js .track-row.is-in .track-node > span {
     animation: none;
   }
 }
+
+/* Hero headline: each letter rises out of its word's baseline. */
+.split-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding: 0.14em 0.03em;
+  margin: -0.14em -0.03em;
+}
+.split-char {
+  display: inline-block;
+}
+html.js .split-char {
+  transform: translateY(115%) rotate(9deg);
+  transform-origin: 0 100%;
+  animation: split-in 0.95s var(--ease-out) forwards;
+  animation-delay: calc(0.25s + var(--c, 0) * 20ms);
+}
+@keyframes split-in {
+  to {
+    transform: none;
+  }
+}
+
+.scroll-hint {
+  transform-origin: top;
+  animation: scroll-hint 1.8s var(--ease-out) infinite;
+}
+@keyframes scroll-hint {
+  0% {
+    transform: scaleY(0);
+  }
+  60%,
+  100% {
+    transform: scaleY(1);
+    opacity: 0;
+  }
+}
+
+/* The section after the pinned hero scene rides up under its closing wipe, so there is no empty screen between them. */
+[data-film] + section {
+  margin-top: -60vh;
+  z-index: 10;
+}
