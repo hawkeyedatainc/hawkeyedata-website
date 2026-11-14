@@ -4,6 +4,7 @@ import { AnimatePresence, LayoutGroup, motion } from "motion/react";
 import { Search } from "lucide-react";
 import { CourseCard } from "@/components/CourseCard";
 import { PROFILE, byFeatured, byTrackOrder, courses, fmt, trackOf, tracks } from "@/lib/catalog";
+import { SplitHeadline } from "@/components/film/SplitHeadline";
 
 const SORTS = {
   featured: { label: "Featured", fn: byFeatured },
@@ -53,9 +54,10 @@ export default function Courses() {
     <>
       <section className="pb-16 pt-36 md:pb-20 md:pt-44">
         <div className="container">
-          <h1 className="hero-in max-w-[14ch] text-[clamp(2.5rem,6.4vw,5.4rem)] font-semibold leading-[0.98] text-paper">
-            Every course, grouped by <span className="text-gold">goal</span>.
-          </h1>
+          <SplitHeadline
+            className="max-w-[14ch] text-[clamp(2.5rem,6.4vw,5.4rem)] font-semibold leading-[0.98] text-paper"
+            parts={[{ text: "Every course, grouped by " }, { text: "goal", className: "text-gold" }, { text: "." }]}
+          />
           <p className="hero-in mt-7 max-w-[56ch] text-lg leading-relaxed text-lilac" style={{ ["--i" as string]: 1 }}>
             {courses.length} courses on Udemy, taken by {fmt(PROFILE.learners)} learners. Each one opens on Udemy, where
             you can preview lessons before you enrol.

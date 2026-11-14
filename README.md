@@ -31,3 +31,7 @@ Student reviews go in `src/data/reviews.json` as `{ course, name, text }`, using
 ## Design
 
 `PRODUCT.md` holds the product brief used with the Impeccable design skill. The hawk mark in `src/components/hawk-paths.ts` is traced from the original logo artwork, so it can animate and scale cleanly.
+
+## Motion
+
+On a desktop with a mouse, the home hero is a pinned WebGL scene (`src/components/film/`): the hawk assembles from points of light and scrolling flies the camera through it. Phones, touch devices and visitors who ask for reduced motion get the drawn SVG hawk and no pinned scene. The smaller effects (headings that rise in, dealt and tilting course cards, magnetic buttons, the page wipe) are CSS classes in `src/index.css`, and all of them switch off under `prefers-reduced-motion`.

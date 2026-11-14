@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Lenis from "lenis";
 import { SiteHeader } from "./SiteHeader";
@@ -9,6 +9,10 @@ let lenis: Lenis | null = null;
 
 export function Layout() {
   const { pathname, hash } = useLocation();
+  // After the first page, each new page is uncovered by a wipe (see .page-wipe in index.css).
+  const landedOn = useRef(pathname);
+  const navigated = useRef(false);
+  if (pathname !== landedOn.current) navigated.current = true;
 
   // Smooth, weighted scrolling on pointer devices; native scrolling for touch and reduced motion.
   useEffect(() => {
@@ -88,6 +92,7 @@ export function Layout() {
         <Outlet />
       </main>
       <SiteFooter />
+      {navigated.current && <div key={pathname} className="page-wipe" aria-hidden />}
     </>
   );
 }

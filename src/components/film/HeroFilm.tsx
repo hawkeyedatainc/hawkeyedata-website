@@ -105,7 +105,7 @@ export function HeroFilm({ avgRating }: { avgRating: number }) {
   const copyY = useTransform(progress, [0, 0.1], [0, -60]);
   const hintOpacity = useTransform(progress, [0, 0.03], [1, 0]);
   const wipe = useTransform(progress, [0.78, 0.88], ["circle(0% at 50% 50%)", "circle(75% at 50% 50%)"]);
-  // Past the opening, the hero copy is invisible and must not catch clicks or focus.
+  // Past the opening, the hero copy is faded out and must not catch clicks.
   const [copyLive, setCopyLive] = useState(true);
   useMotionValueEvent(progress, "change", (p) => setCopyLive(p < 0.1));
 
@@ -126,7 +126,9 @@ export function HeroFilm({ avgRating }: { avgRating: number }) {
           style={film ? { opacity: copyOpacity, y: copyY } : undefined}
           className={`container relative grid items-center gap-y-12 lg:grid-cols-12 ${
             film ? "h-full" : "lg:min-h-[100svh]"
-          } ${film && !copyLive ? "invisible" : ""}`}
+          } ${film && !copyLive ? "pointer-events-none" : ""}`}
+          // Tabbing to a faded-out hero link brings the hero back.
+          onFocusCapture={() => film && !copyLive && window.scrollTo({ top: 0 })}
         >
           <HeroCircuit
             className={`order-first mx-auto aspect-[1464/900] w-[min(78vw,420px)] lg:order-last lg:col-span-5 lg:col-start-8 lg:w-full ${

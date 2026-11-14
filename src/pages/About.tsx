@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Hawk } from "@/components/Hawk";
 import { PROFILE, fmt, totals } from "@/lib/catalog";
+import { SplitHeadline } from "@/components/film/SplitHeadline";
+import { Rise } from "@/components/Rise";
 
 export default function About() {
   const facts = [
@@ -18,9 +20,10 @@ export default function About() {
           className="pointer-events-none absolute -right-[18%] top-24 w-[80vw] max-w-[860px] text-violet/60 md:-right-[6%]"
         />
         <div className="container relative">
-          <h1 className="hero-in max-w-[14ch] text-[clamp(2.5rem,6.4vw,5.4rem)] font-semibold leading-[0.98] text-paper">
-            A hawk's eye for <span className="text-gold">data</span>.
-          </h1>
+          <SplitHeadline
+            className="max-w-[14ch] text-[clamp(2.5rem,6.4vw,5.4rem)] font-semibold leading-[0.98] text-paper"
+            parts={[{ text: "A hawk's eye for " }, { text: "data", className: "text-gold" }, { text: "." }]}
+          />
           <p className="hero-in mt-7 max-w-[56ch] text-lg leading-relaxed text-lilac" style={{ ["--i" as string]: 1 }}>
             HawkEye Data Solutions closes the gap between ambitious professionals and what the data, cloud and AI
             industry expects of them, through courses, corporate training and consulting.
@@ -28,10 +31,10 @@ export default function About() {
         </div>
       </section>
 
-      <section className="on-paper py-24 md:py-32">
+      <section className="curtain on-paper relative py-24 md:py-32">
         <div className="container grid gap-14 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <h2 className="reveal text-[clamp(1.8rem,3.8vw,3.2rem)] font-semibold leading-[1.05]">Meet Amandeep</h2>
+            <Rise className="text-[clamp(1.8rem,3.8vw,3.2rem)] font-semibold leading-[1.05]">Meet Amandeep</Rise>
             <p className="reveal mt-2 text-mist" style={{ ["--i" as string]: 1 }}>
               Founder and CEO, HawkEye Data
             </p>
@@ -72,7 +75,7 @@ export default function About() {
         </div>
       </section>
 
-      <section className="py-24 md:py-32">
+      <section className="curtain relative bg-night py-24 md:py-32">
         <div className="container grid items-center gap-14 lg:grid-cols-12">
           <div className="reveal mx-auto w-full max-w-[420px] lg:col-span-5">
             <img
@@ -85,9 +88,7 @@ export default function About() {
             />
           </div>
           <div className="lg:col-span-6 lg:col-start-7">
-            <h2 className="reveal text-[clamp(1.8rem,3.8vw,3.2rem)] font-semibold leading-[1.05] text-paper">
-              The circuit hawk
-            </h2>
+            <Rise className="text-[clamp(1.8rem,3.8vw,3.2rem)] font-semibold leading-[1.05] text-paper">The circuit hawk</Rise>
             <p className="reveal mt-6 text-lg leading-relaxed text-lilac">
               A hawk sees the whole field and the smallest detail in it at once. Ours is drawn from circuit traces and
               nodes, because that is the job: take a complicated system and make its structure obvious.
