@@ -1,17 +1,19 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { OFFERS } from "@/lib/offers";
+import { trackPointer } from "@/lib/pointer";
+import { Rise } from "./Rise";
 
 export function TeamsSection() {
   return (
-    <section className="relative py-24 md:py-36" aria-labelledby="teams-title">
+    <section className="curtain relative bg-night py-24 md:py-36" aria-labelledby="teams-title">
       <div className="container">
-        <h2
+        <Rise
           id="teams-title"
-          className="reveal max-w-[17ch] text-[clamp(2rem,4.6vw,3.9rem)] font-semibold leading-[1.02] text-paper"
+          className="max-w-[17ch] text-[clamp(2rem,4.6vw,3.9rem)] font-semibold leading-[1.02] text-paper"
         >
           Bring the classroom to your team.
-        </h2>
+        </Rise>
         <p className="reveal mt-6 max-w-[56ch] text-lg leading-relaxed text-lilac" style={{ ["--i" as string]: 1 }}>
           The same clarity that works for 176,000 learners, applied to your people and your data.
         </p>
@@ -20,7 +22,8 @@ export function TeamsSection() {
           {OFFERS.map((offer, i) => (
             <article
               key={offer.id}
-              className="reveal group relative overflow-hidden rounded-[28px] bg-plum/60 p-8 transition-colors duration-500 hover:bg-plum md:p-12"
+              onPointerMove={trackPointer}
+              className="reveal spotlight group relative overflow-hidden rounded-[28px] bg-plum/60 p-8 transition-colors duration-500 hover:bg-plum md:p-12"
               style={{ ["--i" as string]: i }}
             >
               <h3 className="text-[clamp(1.5rem,2.6vw,2.2rem)] font-semibold text-gold">{offer.name}</h3>

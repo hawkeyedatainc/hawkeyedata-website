@@ -25,6 +25,31 @@ export function Layout() {
     };
   }, []);
 
+  // Buttons lean a few pixels toward the mouse (see .btn in index.css).
+  useEffect(() => {
+    if (!matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)").matches) return;
+    let held: HTMLElement | null = null;
+    const release = () => {
+      held?.style.removeProperty("--mx");
+      held?.style.removeProperty("--my");
+      held = null;
+    };
+    const onMove = (e: PointerEvent) => {
+      const btn = (e.target as Element).closest?.<HTMLElement>(".btn") ?? null;
+      if (btn !== held) release();
+      if (!btn) return;
+      held = btn;
+      const r = btn.getBoundingClientRect();
+      btn.style.setProperty("--mx", `${((e.clientX - r.left - r.width / 2) * 0.22).toFixed(1)}px`);
+      btn.style.setProperty("--my", `${((e.clientY - r.top - r.height / 2) * 0.3).toFixed(1)}px`);
+    };
+    document.addEventListener("pointermove", onMove, { passive: true });
+    return () => {
+      document.removeEventListener("pointermove", onMove);
+      release();
+    };
+  }, []);
+
   // New page: title, scroll position, and scroll reveals.
   useEffect(() => {
     const route = routes.find((r) => r.path === pathname.replace(/\/$/, "") || r.path === pathname) ?? routes.at(-1)!;

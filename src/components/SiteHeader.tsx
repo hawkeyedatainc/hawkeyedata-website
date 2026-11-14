@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useScroll } from "motion/react";
 import { Hawk } from "./Hawk";
 
 const NAV = [
@@ -14,6 +14,7 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { pathname } = useLocation();
+  const { scrollYProgress } = useScroll();
 
   useEffect(() => setOpen(false), [pathname]);
 
@@ -39,6 +40,12 @@ export function SiteHeader() {
         scrolled || open ? "bg-night shadow-[0_1px_0_rgb(var(--lilac)/0.08)]" : ""
       }`}
     >
+      {/* How far down the page you are. */}
+      <motion.div
+        aria-hidden
+        style={{ scaleX: scrollYProgress }}
+        className="absolute inset-x-0 bottom-0 h-[2px] origin-left bg-gold"
+      />
       {/* 60px when slim; keep in step with the Courses filter bar's sticky offset. */}
       <div
         className={`container flex items-center justify-between gap-6 transition-[height] duration-500 ease-out ${

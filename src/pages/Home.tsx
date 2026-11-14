@@ -20,12 +20,12 @@ export default function Home() {
       <Reviews />
       <TeamsSection />
 
-      <section className="on-paper py-24 md:py-36">
+      <section className="curtain on-paper relative py-24 md:py-36">
         <div className="container grid gap-12 lg:grid-cols-12">
           <blockquote className="reveal lg:col-span-7">
             <p className="font-display text-[clamp(1.7rem,3.6vw,3rem)] font-medium leading-[1.12] tracking-[-0.03em]">
               “Known among students for making complex topics{" "}
-              <span className="bg-[linear-gradient(transparent_62%,rgb(var(--gold))_62%)]">simple to understand.</span>”
+              <span className="mark-sweep bg-[linear-gradient(transparent_62%,rgb(var(--gold))_62%)]">simple to understand.</span>”
             </p>
             <footer className="mt-6 text-mist">From Amandeep's Udemy instructor profile</footer>
           </blockquote>

@@ -1,6 +1,7 @@
 import { ArrowUpRight, Star } from "lucide-react";
 import { type Course, compact, examCodes, trackOf } from "@/lib/catalog";
 import { HotBadge } from "./HotBadge";
+import { releasePointer, trackPointer } from "@/lib/pointer";
 
 export function CourseCard({ course, tone = "paper" }: { course: Course; tone?: "paper" | "night" }) {
   const codes = examCodes(course);
@@ -12,7 +13,9 @@ export function CourseCard({ course, tone = "paper" }: { course: Course; tone?: 
       href={course.url}
       target="_blank"
       rel="noopener noreferrer"
-      className={`group relative flex h-full flex-col rounded-[22px] p-2.5 transition-[transform,box-shadow,background-color] duration-500 ease-out hover:-translate-y-1.5 ${
+      onPointerMove={trackPointer}
+      onPointerLeave={releasePointer}
+      className={`tilt group relative flex h-full flex-col rounded-[22px] p-2.5 ${
         night
           ? "bg-plum/70 hover:bg-plum hover:shadow-[0_30px_60px_-30px_rgb(0_0_0/0.6)]"
           : "bg-white shadow-[0_1px_2px_rgb(var(--ink)/0.06),0_8px_24px_-16px_rgb(var(--ink)/0.25)] hover:shadow-[0_2px_4px_rgb(var(--ink)/0.06),0_30px_50px_-28px_rgb(var(--violet)/0.55)]"
