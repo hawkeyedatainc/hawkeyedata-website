@@ -148,12 +148,12 @@ export const totals = {
   reviews: courses.reduce((n, c) => n + c.reviews, 0),
 };
 
-// Profile-level figures as Udemy shows them (2026-10). The per-course sums above can lag behind.
+// Profile-level figures as Udemy shows them (2026-11). The per-course sums above can lag behind.
 export const PROFILE = {
   name: "Amandeep Sawhney",
   udemyUrl: "https://www.udemy.com/user/amandeep-singh-sawhney/",
-  learners: 176_488,
-  reviews: 24_423,
+  learners: 183_112,
+  reviews: 25_750,
 };
 
 export const EMAIL = "learn@hawkeyedata.ca";
